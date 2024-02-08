@@ -53,7 +53,6 @@ module LokaliseManager
             api_client.upload_file project_id_with_branch, opts(f_path, r_path)
           end
           proc_klass.new success: true, process: process, path: f_path
-        puts "OK!" unless config.silent_mode
         rescue StandardError => e
           proc_klass.new success: false, path: f_path, error: e
         end

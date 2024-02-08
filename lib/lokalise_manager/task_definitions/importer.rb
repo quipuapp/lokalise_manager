@@ -14,13 +14,13 @@ module LokaliseManager
         check_options_errors!
 
         unless proceed_when_safe_mode?
-          $stdout.print('Task cancelled!') unless config.silent_mode
+          $stdout.print('Task cancelled!\n') unless config.silent_mode
           return false
         end
 
         open_and_process_zip download_files['bundle_url']
 
-        $stdout.print('Task complete!') unless config.silent_mode
+        $stdout.print('Task complete!\n') unless config.silent_mode
         true
       end
 
@@ -42,6 +42,7 @@ module LokaliseManager
       #
       # @param path [String]
       def open_and_process_zip(path)
+        puts "Downloading #{path}..."
         Zip::File.open_buffer(open_file_or_remote(path)) do |zip|
           fetch_zip_entries(zip) { |entry| process!(entry) }
         end
@@ -67,6 +68,7 @@ module LokaliseManager
         full_path = "#{config.locales_path}/#{subdir}"
         FileUtils.mkdir_p full_path
 
+        puts "Processing #{zip_entry.name}..."
         File.open(File.join(full_path, filename), 'w+:UTF-8') do |f|
           f.write config.translations_converter.call(data)
         end

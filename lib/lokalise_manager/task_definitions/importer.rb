@@ -44,7 +44,7 @@ module LokaliseManager
       def open_and_process_zip(path)
         Zip::File.open_buffer(open_file_or_remote(path)) do |zip|
           fetch_zip_entries(zip) do |entry|
-            $stdout.print("Downloading #{entry}...") unless config.silent_mode
+            $stdout.print("Downloading #{entry}... ") unless config.silent_mode
             process!(entry)
             puts "OK!" unless config.silent_mode
           end
@@ -71,11 +71,10 @@ module LokaliseManager
         full_path = "#{config.locales_path}/#{subdir}"
         FileUtils.mkdir_p full_path
 
-        $stdout.print("Processing #{zip_entry.name}...") unless config.silent_mode
+        $stdout.print("processing #{zip_entry.name}... ") unless config.silent_mode
         File.open(File.join(full_path, filename), 'w+:UTF-8') do |f|
           f.write config.translations_converter.call(data)
         end
-        puts "OK!" unless config.silent_mode
       rescue StandardError => e
         raise e.class, "Error when trying to process #{zip_entry&.name}: #{e.message}"
       end

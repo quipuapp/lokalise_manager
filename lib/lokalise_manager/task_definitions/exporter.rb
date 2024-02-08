@@ -25,7 +25,7 @@ module LokaliseManager
           end
         end
 
-        $stdout.print('Task complete!') unless config.silent_mode
+        puts('Task complete!') unless config.silent_mode
 
         queued_processes
       end
@@ -48,6 +48,7 @@ module LokaliseManager
         proc_klass = Struct.new(:success, :process, :path, :error, keyword_init: true)
 
         Thread.new do
+          puts "Uploading #{r_path}..." # Print log statement
           process = with_exp_backoff(config.max_retries_export) do
             api_client.upload_file project_id_with_branch, opts(f_path, r_path)
           end

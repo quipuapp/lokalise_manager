@@ -47,7 +47,7 @@ module LokaliseManager
       def do_upload(f_path, r_path)
         proc_klass = Struct.new(:success, :process, :path, :error, keyword_init: true)
 
-        $stdout.print("Uploading #{r_path}...") unless config.silent_mode
+        puts "Uploading #{r_path}..." unless config.silent_mode
         Thread.new do
           process = with_exp_backoff(config.max_retries_export) do
             api_client.upload_file project_id_with_branch, opts(f_path, r_path)
